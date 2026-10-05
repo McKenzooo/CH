@@ -1,0 +1,209 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Canggu Hills Live Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: black masthead with freshness strip, then a single-column report; Program tab is a scrollable week-grid Gantt. */
+:root{--bg:#f6f6f4;--surface:#fff;--ink:#111110;--muted:#6b6a66;--line:#e2e1dc;--track:#ecebe6;--plan:#c9c7bf;
+--green:#1f7a4d;--amber:#b7791f;--red:#b42318;--greenbg:#e5f3ec;--amberbg:#fbf0dc;--redbg:#fde8e6;
+--fd:"Archivo",system-ui,sans-serif;--fb:"Instrument Sans",system-ui,sans-serif;--fm:"JetBrains Mono",ui-monospace,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121211;--surface:#1b1b19;--ink:#f1f0ec;--muted:#9c9a93;--line:#2e2d2a;--track:#2a2926;--plan:#4a4943;--green:#4cc38a;--amber:#e3a94a;--red:#f07167;--greenbg:#16301f;--amberbg:#33270f;--redbg:#3a1714;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121211;--surface:#1b1b19;--ink:#f1f0ec;--muted:#9c9a93;--line:#2e2d2a;--track:#2a2926;--plan:#4a4943;--green:#4cc38a;--amber:#e3a94a;--red:#f07167;--greenbg:#16301f;--amberbg:#33270f;--redbg:#3a1714;color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--fb)}
+.mast{background:#0b0b0a;color:#f4f3ef;padding:20px 16px 0}
+.wrap{max-width:1120px;margin:0 auto}
+.mrow{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between}
+.logo{font:800 22px/1 var(--fd);letter-spacing:.32em}
+.proj h1{font:800 clamp(26px,5vw,40px)/1.05 var(--fd);margin:14px 0 4px;letter-spacing:-.01em;text-wrap:balance}
+.code{font:500 12px var(--fm);color:#a9a8a2;letter-spacing:.06em}
+.seg{display:inline-flex;border:1px solid #3a3a37;border-radius:999px;padding:3px}
+.seg button{background:none;border:0;color:#bdbcb6;font:600 13px var(--fb);padding:6px 14px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:#f4f3ef;color:#0b0b0a}
+.seg button:focus-visible,.tabs button:focus-visible{outline:2px solid #f4f3ef;outline-offset:2px}
+.tabs{display:flex;gap:4px;margin-top:18px}
+.tabs button{background:none;border:0;color:#a9a8a2;font:600 14px var(--fb);padding:10px 14px;border-bottom:3px solid transparent;cursor:pointer}
+.tabs button[aria-selected="true"]{color:#fff;border-color:#fff}
+.fresh{padding:9px 16px;font:500 13px var(--fm)}
+.fresh.ok{background:var(--greenbg);color:var(--green)}.fresh.bad{background:var(--redbg);color:var(--red)}
+main{padding-block:28px 56px;padding-inline:16px}
+section{margin-bottom:36px}
+h2{font:800 13px var(--fd);text-transform:uppercase;letter-spacing:.14em;margin:0 0 14px;color:var(--muted)}
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:16px}
+@media(max-width:760px){.hero{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px;min-width:0}
+.big{font:800 64px/1 var(--fd);letter-spacing:-.02em}
+.big small{font-size:24px}
+.lbl{font:500 11px var(--fm);text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.bar{height:10px;background:var(--track);border-radius:2px;position:relative;overflow:hidden}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--ink)}
+.bar b{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--amber)}
+.pill{display:inline-flex;align-items:center;gap:6px;font:600 12px var(--fb);padding:3px 10px;border-radius:999px}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.G{background:var(--greenbg);color:var(--green)}.A{background:var(--amberbg);color:var(--amber)}.R{background:var(--redbg);color:var(--red)}.NS{background:var(--track);color:var(--muted)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin-top:14px;font-size:14px}
+.kv dt{color:var(--muted)}.kv dd{margin:0;font-weight:600}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.kpi .n{font:800 34px/1.1 var(--fd);font-variant-numeric:tabular-nums}
+.kpi .s{font-size:12px;color:var(--muted);margin-top:4px}
+.ms{display:grid;grid-template-columns:repeat(6,1fr);gap:0;border-top:2px solid var(--ink)}
+@media(max-width:760px){.ms{grid-template-columns:repeat(2,1fr)}}
+.ms div{padding:12px 12px 0 0;min-width:0}
+.ms .m{font:600 12px var(--fm)}.ms .t{font-weight:600;font-size:14px;line-height:1.3;margin:4px 0 8px}
+.phase{display:grid;grid-template-columns:minmax(0,260px) 1fr 70px;gap:14px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+@media(max-width:560px){.phase{grid-template-columns:1fr 60px}.phase .bar{grid-column:1/-1;grid-row:2}}
+.phase .nm{font-weight:600}.phase .sub{font-size:12px;color:var(--muted)}
+.num{font:500 13px var(--fm);text-align:right;font-variant-numeric:tabular-nums}
+.legend{display:flex;gap:16px;font-size:12px;color:var(--muted);margin-top:10px;flex-wrap:wrap}
+.legend span::before{content:"";display:inline-block;width:12px;height:8px;margin-right:6px;vertical-align:middle;background:var(--k)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{font:500 11px var(--fm);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--ink)}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.tw{overflow-x:auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.two{grid-template-columns:1fr}}
+.dep{display:grid;grid-template-columns:130px 1fr 60px;gap:10px;align-items:center;font-size:13px;padding:5px 0}
+.flags li{margin:6px 0;font-size:14px}
+.note{font-size:13px;color:var(--muted)}
+.gantt{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:6px}
+.gt{min-width:900px;display:grid;grid-template-columns:300px 1fr}
+.gh{position:sticky;left:0;background:var(--surface);z-index:1;padding:6px 12px;border-bottom:1px solid var(--line);font-size:13px;min-width:0}
+.gh .id{font:500 11px var(--fm);color:var(--muted)}
+.gp{grid-column:1/-1;background:var(--ink);color:var(--bg);font:600 12px var(--fm);letter-spacing:.06em;padding:6px 12px;text-transform:uppercase}
+.gc{position:relative;border-bottom:1px solid var(--line);background-image:linear-gradient(to right,var(--line) 1px,transparent 1px);background-size:var(--wk) 100%}
+.gc i{position:absolute;top:9px;height:14px;border-radius:2px;background:var(--plan)}
+.gc i.Done{background:var(--ink)}.gc i.ip{background:linear-gradient(to right,var(--ink) var(--p),var(--plan) var(--p))}
+.gc i.late{outline:2px solid var(--red);outline-offset:1px}
+.gc .td{position:absolute;top:0;bottom:0;width:2px;background:var(--red)}
+.gm{display:flex;font:500 11px var(--fm);color:var(--muted)}
+.gm span{flex:1;padding:6px 4px;border-left:1px solid var(--line)}
+.int{display:none}body.internal .int{display:revert}body.internal .cli{display:none}
+@media (prefers-reduced-motion:no-preference){.bar i,.gc i{transition:width .5s}}
+</style>
+<header class="mast"><div class="wrap">
+ <div class="mrow"><div class="logo">OXO</div>
+  <div class="seg" role="group" aria-label="View"><button id="vC" aria-pressed="true">Client view</button><button id="vI" aria-pressed="false">Internal view</button></div></div>
+ <div class="proj"><h1>Canggu Hills</h1><div class="code">OSL-CHL-0000 · 6-MONTH MASTER VISION PROGRAM · 1 JUL – 31 DEC 2026</div></div>
+ <nav class="tabs" role="tablist"><button role="tab" id="tS" aria-selected="true">Executive Summary</button><button role="tab" id="tP" aria-selected="false">Program</button></nav>
+</div></header>
+<div id="fresh" class="fresh"><div class="wrap" id="freshT"></div></div>
+<main><div class="wrap">
+<div id="pS">
+ <section class="hero">
+  <div class="panel">
+   <div class="lbl">Overall progress</div>
+   <div class="big" id="ovPct"></div>
+   <div class="bar" style="margin:14px 0 6px"><i id="ovBar"></i><b id="ovPlan"></b></div>
+   <div class="note" id="ovNote"></div>
+  </div>
+  <div class="panel">
+   <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><div class="lbl">Where we are</div><span id="health" class="pill"></span></div>
+   <dl class="kv">
+    <dt>Stage</dt><dd>S3 Design · Master Plan optimisation</dd>
+    <dt>Current phase</dt><dd>P4 October · Master Plan Optimisation</dd>
+    <dt>Next milestone</dt><dd id="nextM"></dd>
+    <dt>Last Gate passed</dt><dd>G1 Go / No-Go (WS-17, 23 Sep 2026)</dd>
+    <dt>Next Gate</dt><dd>G3 Design freeze</dd>
+   </dl>
+   <p class="note int" id="healthWhy"></p>
+  </div>
+ </section>
+ <section class="int"><h2>Standard KPIs · tab 99</h2><div class="kpis" id="kpis"></div></section>
+ <section><h2>Milestones</h2><div class="ms" id="ms"></div></section>
+ <section><h2>Progress by phase</h2><div class="panel" id="phases"></div>
+  <div class="legend"><span style="--k:var(--ink)">Actual</span><span style="--k:var(--amber)">Planned for today</span></div></section>
+ <section class="cli"><h2>Coming up next</h2><div class="panel tw"><table><thead><tr><th>Deliverable</th><th>Workstream</th><th>Target</th></tr></thead><tbody id="upC"></tbody></table></div></section>
+ <section class="int"><h2>Watch list</h2><div class="panel tw"><table><thead><tr><th>Task</th><th>WS</th><th>Responsible / Accountable</th><th>Status</th><th>Due</th></tr></thead><tbody id="watch"></tbody></table></div></section>
+ <section class="int two">
+  <div><h2>Tasks by department</h2><div class="panel" id="deps"></div></div>
+  <div><h2>Critical documents outstanding</h2><div class="panel"><div class="kpi"><div class="n">20 <span class="note">of 50 Critical</span></div></div><div id="docs" style="margin-top:10px"></div></div></div>
+ </section>
+ <section class="int"><h2>Data quality · fix before Monday update</h2><div class="panel"><ul class="flags">
+  <li>Two additional tasks under WS-42 (Traffic counting, Andalalin) have no department, dates or status. The sheet dashboard counts 18 additional tasks; the Task List holds 20.</li>
+  <li>10 tasks in WS-40 and WS-41 have "TBC" dates, so they can't be scheduled or flagged overdue.</li>
+  <li>Documents checklist uses "Partial" once. It isn't an OXO Standard status, so change it to Requested or Provided.</li>
+  <li>Task List has no "Last updated" column, so freshness here uses the workbook's last edit date.</li>
+ </ul></div></section>
+</div>
+<div id="pP" hidden>
+ <section><h2>Program · 42 workstreams</h2>
+  <div class="gantt"><div class="gt" id="gantt"></div></div>
+  <div class="legend"><span style="--k:var(--ink)">Done</span><span style="--k:var(--plan)">Planned</span><span style="--k:var(--red)">Today / overdue</span></div>
+ </section>
+ <section class="int"><h2>Workstream detail</h2><div class="panel tw"><table><thead><tr><th>WS</th><th>Deliverable</th><th>Department</th><th>Tasks done</th><th>Progress</th><th>End</th></tr></thead><tbody id="wsT"></tbody></table></div></section>
+</div>
+</div></main>
+<script>const D={"asof":"2026-10-05","lastEdit":"2026-10-02","phases":[{"code":"P1","month":"July","name":"Analysis & Financial Assessment","n":76,"done":76,"act":100,"plan":100},{"code":"P2","month":"August","name":"Feasibility","n":18,"done":18,"act":100,"plan":100},{"code":"P3","month":"September","name":"Destination & Placemaking","n":17,"done":17,"act":100,"plan":100},{"code":"P4","month":"October","name":"Master Plan Optimisation","n":26,"done":1,"act":8,"plan":18},{"code":"P5","month":"November","name":"Master Plan & Brand Identity Direction","n":15,"done":0,"act":0,"plan":0},{"code":"P6","month":"December","name":"Investment-Ready Package","n":9,"done":0,"act":0,"plan":0}],"ws":[{"id":"WS-01","dl":"Data Room and Documentation Assembly","sec":"Main","ph":"P1","s":"2026-07-09","e":"2026-07-31","n":8,"d":8,"pct":100,"st":"Done","dep":"Development"},{"id":"WS-02","dl":"Site and Land Baseline","sec":"Main","ph":"P1","s":"2026-07-17","e":"2026-07-31","n":7,"d":7,"pct":100,"st":"Done","dep":"Development"},{"id":"WS-03","dl":"Existing Development and Commitments Audit","sec":"Main","ph":"P1","s":"2026-07-17","e":"2026-07-31","n":12,"d":12,"pct":100,"st":"Done","dep":"Development"},{"id":"WS-04","dl":"Legal, Land and Regulatory Due Diligence","sec":"Main","ph":"P1","s":"2026-07-17","e":"2026-07-31","n":12,"d":12,"pct":100,"st":"Done","dep":"Legal"},{"id":"WS-05","dl":"Financial and Contractual DD","sec":"Main","ph":"P1","s":"2026-07-17","e":"2026-07-31","n":7,"d":7,"pct":100,"st":"Done","dep":"Development"},{"id":"WS-06","dl":"Market and Demand Context","sec":"Main","ph":"P1","s":"2026-07-17","e":"2026-07-31","n":4,"d":4,"pct":100,"st":"Done","dep":"Solutions"},{"id":"WS-07","dl":"Competitive and Supply Mapping","sec":"Main","ph":"P1","s":"2026-07-17","e":"2026-07-31","n":4,"d":4,"pct":100,"st":"Done","dep":"Solutions"},{"id":"WS-08","dl":"Mobility and Access Assessment","sec":"Main","ph":"P1","s":"2026-07-17","e":"2026-07-31","n":4,"d":4,"pct":100,"st":"Done","dep":"Solutions"},{"id":"WS-09","dl":"Infrastructure Capacity Assessment","sec":"Main","ph":"P1","s":"2026-07-17","e":"2026-07-31","n":4,"d":4,"pct":100,"st":"Done","dep":"Development"},{"id":"WS-10","dl":"Environmental and Climate Baseline","sec":"Main","ph":"P1","s":"2026-07-17","e":"2026-07-31","n":4,"d":4,"pct":100,"st":"Done","dep":"Development"},{"id":"WS-11","dl":"Cultural and Community Mapping","sec":"Main","ph":"P1","s":"2026-07-17","e":"2026-07-31","n":5,"d":5,"pct":100,"st":"Done","dep":"Solutions"},{"id":"WS-12","dl":"Brand, Media and Sentiment Audit","sec":"Main","ph":"P1","s":"2026-07-17","e":"2026-07-31","n":5,"d":5,"pct":100,"st":"Done","dep":"Brand"},{"id":"WS-13","dl":"Financial model","sec":"Main","ph":"P2","s":"2026-08-12","e":"2026-09-23","n":4,"d":4,"pct":100,"st":"Done","dep":"Development"},{"id":"WS-14","dl":"Cost-to-complete & funding gap finalised","sec":"Main","ph":"P2","s":"2026-08-12","e":"2026-09-23","n":3,"d":3,"pct":100,"st":"Done","dep":"Development"},{"id":"WS-15","dl":"Revenue models","sec":"Main","ph":"P2","s":"2026-08-12","e":"2026-09-23","n":4,"d":4,"pct":100,"st":"Done","dep":"Solutions"},{"id":"WS-16","dl":"Scenario analysis","sec":"Main","ph":"P2","s":"2026-08-12","e":"2026-09-23","n":3,"d":3,"pct":100,"st":"Done","dep":"Development"},{"id":"WS-17","dl":"Decision gate: Go / No-Go / Conditional + conditions precedent","sec":"Main","ph":"P2","s":"2026-08-12","e":"2026-09-23","n":4,"d":4,"pct":100,"st":"Done","dep":"Solutions"},{"id":"WS-18","dl":"Destination concept","sec":"Main","ph":"P3","s":"2026-08-20","e":"2026-09-03","n":4,"d":4,"pct":100,"st":"Done","dep":"Brand"},{"id":"WS-19","dl":"Placemaking & Anchor strategy","sec":"Main","ph":"P3","s":"2026-08-20","e":"2026-09-03","n":4,"d":4,"pct":100,"st":"Done","dep":"Brand"},{"id":"WS-20","dl":"Brand identity","sec":"Main","ph":"P3","s":"2026-08-31","e":"2026-09-03","n":3,"d":3,"pct":100,"st":"Done","dep":"Brand"},{"id":"WS-21","dl":"Product market fit & product-mix","sec":"Main","ph":"P3","s":"2026-08-20","e":"2026-09-03","n":3,"d":3,"pct":100,"st":"Done","dep":"Brand"},{"id":"WS-22","dl":"Master Vision narrative","sec":"Main","ph":"P3","s":"2026-08-20","e":"2026-09-03","n":3,"d":3,"pct":100,"st":"Done","dep":"Brand"},{"id":"WS-23","dl":"Engage Architect","sec":"Main","ph":"P4","s":"2026-09-11","e":"2026-10-09","n":5,"d":1,"pct":40,"st":"In Progress","dep":"Development"},{"id":"WS-24","dl":"Review and Initiate Optimised masterplan","sec":"Main","ph":"P4","s":"2026-10-09","e":"2026-10-16","n":3,"d":0,"pct":0,"st":"Not Started","dep":"Development"},{"id":"WS-25","dl":"Product program and Area Schedule","sec":"Main","ph":"P4","s":"2026-10-16","e":"2026-10-23","n":3,"d":0,"pct":0,"st":"Not Started","dep":"Development"},{"id":"WS-26","dl":"Commercial precinct plan","sec":"Main","ph":"P4","s":"2026-10-16","e":"2026-10-23","n":3,"d":0,"pct":0,"st":"Not Started","dep":"Development"},{"id":"WS-27","dl":"Circulation, parking & mobility resolution","sec":"Main","ph":"P4","s":"2026-10-16","e":"2026-10-23","n":4,"d":0,"pct":0,"st":"Not Started","dep":"Development"},{"id":"WS-28","dl":"Planned vs built vs proposed delta map","sec":"Main","ph":"P4","s":"2026-10-23","e":"2026-10-30","n":2,"d":0,"pct":0,"st":"Not Started","dep":"Development"},{"id":"WS-29","dl":"Phasing & delivery strategy","sec":"Main","ph":"P4","s":"2026-10-23","e":"2026-10-30","n":3,"d":0,"pct":0,"st":"Not Started","dep":"Development"},{"id":"WS-30","dl":"Master Plan optimised","sec":"Main","ph":"P4","s":"2026-10-23","e":"2026-10-30","n":3,"d":0,"pct":0,"st":"Not Started","dep":"Development"},{"id":"WS-31","dl":"Finalised master plan","sec":"Main","ph":"P5","s":"2026-11-03","e":"2026-11-28","n":3,"d":0,"pct":0,"st":"Not Started","dep":"Development"},{"id":"WS-32","dl":"3D Visualisation","sec":"Main","ph":"P5","s":"2026-11-03","e":"2026-11-28","n":3,"d":0,"pct":0,"st":"Not Started","dep":"Development"},{"id":"WS-33","dl":"Pricing architecture","sec":"Main","ph":"P5","s":"2026-11-10","e":"2026-11-28","n":3,"d":0,"pct":0,"st":"Not Started","dep":"Development"},{"id":"WS-34","dl":"Sales & go-to-market direction","sec":"Main","ph":"P5","s":"2026-11-10","e":"2026-12-05","n":2,"d":0,"pct":0,"st":"Not Started","dep":"Development"},{"id":"WS-35","dl":"Leasing & hospitality operating models","sec":"Main","ph":"P5","s":"2026-11-10","e":"2026-12-05","n":2,"d":0,"pct":0,"st":"Not Started","dep":"Development"},{"id":"WS-36","dl":"Rebranding / Relaunch playbook","sec":"Main","ph":"P5","s":"2026-11-17","e":"2026-12-05","n":2,"d":0,"pct":0,"st":"Not Started","dep":"Development"},{"id":"WS-37","dl":"Investment structure & value-creation plan","sec":"Main","ph":"P6","s":"2026-12-01","e":"2026-12-19","n":3,"d":0,"pct":0,"st":"Not Started","dep":"Asset Management"},{"id":"WS-38","dl":"Final Financial Projection model","sec":"Main","ph":"P6","s":"2026-12-01","e":"2026-12-19","n":3,"d":0,"pct":0,"st":"Not Started","dep":"Asset Management"},{"id":"WS-39","dl":"Investor deck & go-to-market pack","sec":"Main","ph":"P6","s":"2026-12-08","e":"2026-12-24","n":3,"d":0,"pct":0,"st":"Not Started","dep":"Brand"},{"id":"WS-40","dl":"Marketing, communications and placemaking","sec":"Additional","ph":"P3","s":"2026-08-20","e":"2026-09-16","n":6,"d":3,"pct":50,"st":"In Progress","dep":"Development"},{"id":"WS-41","dl":"Branding Package","sec":"Additional","ph":"P3","s":null,"e":null,"n":7,"d":0,"pct":0,"st":"Not Started","dep":"Brand"},{"id":"WS-42","dl":"Engage Landscape Consultant","sec":"Additional","ph":"P4","s":"2026-09-29","e":"2026-10-16","n":7,"d":0,"pct":7,"st":"In Progress","dep":"Development"}],"od":[{"t":"Shortlist & appoint architect","ws":"WS-23","dep":"Development","st":"In Progress","p":50.0,"e":"2026-10-02","R":"Sandy","A":"Sukiman","sec":"Main"},{"t":"Request proposal/quotation architect","ws":"WS-23","dep":"Development","st":"In Progress","p":50.0,"e":"2026-10-02","R":"Sandy","A":"Sukiman","sec":"Main"},{"t":"Define landscape consultant scope & design brief","ws":"WS-42","dep":"Development","st":"In Progress","p":50.0,"e":"2026-10-04","R":"Sandy","A":"Sukiman","sec":"Additional"}],"d7":[{"t":"Prepare contract appointed architect","ws":"WS-23","dep":"Development","st":"Not Started","p":null,"e":"2026-10-05","R":"Sandy","A":"Sukiman","sec":"Main"},{"t":"Onboard architect + masterplan / data handover","ws":"WS-23","dep":"Development","st":"Not Started","p":null,"e":"2026-10-09","R":"Sandy","A":"Sukiman","sec":"Main"},{"t":"Shortlist & appoint landscape consultant","ws":"WS-42","dep":"Development","st":"Not Started","p":null,"e":"2026-10-09","R":"Sandy","A":"Sukiman","sec":"Additional"},{"t":"Request proposal/quotation landscape consultant","ws":"WS-42","dep":"Development","st":"Not Started","p":null,"e":"2026-10-09","R":"Sandy","A":"Sukiman","sec":"Additional"},{"t":"Prepare contract appointed landscape consultant","ws":"WS-42","dep":"Development","st":"Not Started","p":null,"e":"2026-10-09","R":"Sandy","A":"Sukiman","sec":"Additional"}],"dep":[{"d":"Executive","n":0,"done":0},{"d":"Development","n":104,"done":56},{"d":"Solutions","n":25,"done":25},{"d":"Brand","n":32,"done":22},{"d":"Marketing","n":0,"done":0},{"d":"Legal","n":12,"done":12},{"d":"Finance","n":0,"done":0},{"d":"Real Estate","n":0,"done":0},{"d":"Asset Management","n":6,"done":0}],"sec":{"Main":{"n":161,"done":112,"ip":2,"od":2,"d7":2,"act":70.2,"plan":71.8},"Additional":{"n":20,"done":3,"ip":1,"od":1,"d7":3,"act":17.5,"plan":23.0}},"plan":66.4,"act":64.4,"n":181,"done":115};
+const $=id=>document.getElementById(id);
+const MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const pd=s=>s?new Date(s+'T00:00:00'):null;
+const fd=s=>{const d=pd(s);return d?`${d.getDate()} ${MO[d.getMonth()]} ${d.getFullYear()}`:'TBC'};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const today=pd(D.asof);
+// Freshness banner: compares the workbook's last edit with the viewer's clock, so it turns red on its own.
+const age=Math.floor((Date.now()-pd(D.lastEdit))/864e5);
+const stale=age>7;$('fresh').className='fresh '+(stale?'bad':'ok');
+$('freshT').textContent=`Data as of ${fd(D.lastEdit)} · ${age} day${age==1?'':'s'} old${stale?' · STALE, update the workbook':''} · Snapshot calculated ${fd(D.asof)}`;
+// KPIs & health (OXO Standard rule)
+const sv=+(D.plan-D.act).toFixed(1), od=D.od.length, d7=D.d7.length, crit=20;
+let h='G',why=[];
+if(stale){h='R';why.push('data older than 7 days')}
+if(sv>15){h='R';why.push('schedule variance over 15 pts')}
+if(h!=='R'&&(sv>=5||od>0)){h='A';if(sv>=5)why.push(`schedule variance ${sv} pts`);if(od)why.push(`${od} task${od>1?'s':''} overdue`)}
+const HN={G:'Green',A:'Amber',R:'Red'};
+$('health').className='pill '+h;$('health').textContent='Health: '+HN[h];
+$('healthWhy').textContent=why.length?`${HN[h]} because ${why.join(' and ')}. No Critical document blocks a Gate in the next 14 days (next milestone M4 is 30 Oct).`:'All checks pass.';
+const pct=Math.round(D.act);
+$('ovPct').innerHTML=`${pct}<small>%</small>`;$('ovBar').style.width=D.act+'%';$('ovPlan').style.left=D.plan+'%';
+$('ovNote').textContent=`${D.done} of ${D.n} tasks done. Planned for today: ${Math.round(D.plan)}%.`;
+const S=D.sec;
+const K=[['% complete',`${pct}%`,`Main ${S.Main.act}% · Additional ${S.Additional.act}%`],
+['Schedule variance',sv>0?`${sv} pts behind`:`${-sv} pts ahead`,`Planned ${D.plan}% vs actual ${D.act}%`],
+['Overdue',od,`Main ${S.Main.od} · Additional ${S.Additional.od}`],
+['Due ≤ 7 days',d7,`Main ${S.Main.d7} · Additional ${S.Additional.d7}`],
+['Critical docs outstanding',crit,'Documents checklist, not Provided'],
+['Data freshness',`${age} d`,stale?'Over 7 days: Red':'Within 7 days']];
+$('kpis').innerHTML=K.map(k=>`<div class="panel kpi"><div class="lbl">${k[0]}</div><div class="n">${k[1]}</div><div class="s">${k[2]}</div></div>`).join('');
+// Milestones from phases
+const MS=['Discovery + Financials','Feasibility + Go/No-Go','Master Vision','Master Plan optimised','Brand + Relaunch','Investor Package'];
+const phEnd=p=>D.ws.filter(w=>w.ph===p&&w.sec==='Main'&&w.e).map(w=>w.e).sort().pop();
+let next=null;
+$('ms').innerHTML=D.phases.map((p,i)=>{const e=phEnd(p.code);const st=p.done===p.n?'G':(p.act>0?'A':'NS');const lab=st==='G'?'Complete':st==='A'?'In progress':'Upcoming';
+ if(!next&&st!=='G')next=`M${i+1} ${MS[i]} · ${fd(e)}`;
+ return `<div><div class="m">M${i+1} · ${p.month.slice(0,3).toUpperCase()}</div><div class="t">${MS[i]}</div><span class="pill ${st}">${lab}</span><div class="note" style="margin-top:6px">${st==='G'?'Done':'Target '+fd(e)}</div></div>`}).join('');
+$('nextM').textContent=next;
+$('phases').innerHTML=D.phases.map(p=>`<div class="phase"><div><div class="nm">${p.code} · ${esc(p.name)}</div><div class="sub">${p.month} · ${p.done}/${p.n} tasks</div></div><div class="bar"><i style="width:${p.act}%"></i>${p.plan>0&&p.plan<100?`<b style="left:${p.plan}%"></b>`:''}</div><div class="num">${p.act}%</div></div>`).join('');
+// Client: upcoming deliverables (open workstreams ending within 30 days)
+const lim=new Date(today);lim.setDate(lim.getDate()+30);
+$('upC').innerHTML=D.ws.filter(w=>w.st!=='Done'&&w.e&&pd(w.e)<=lim).sort((a,b)=>a.e<b.e?-1:1).map(w=>`<tr><td>${esc(w.dl)}</td><td class="num" style="text-align:left">${w.id}</td><td>${fd(w.e)}</td></tr>`).join('');
+// Internal watch list
+const row=(t,late)=>`<tr><td>${esc(t.t)}${t.sec==='Additional'?' <span class="pill NS">Additional</span>':''}</td><td>${t.ws}</td><td>${esc(t.R||'—')} / ${esc(t.A||'—')}</td><td><span class="pill ${late?'R':t.st==='In Progress'?'A':'NS'}">${late?'Overdue':t.st}${t.p&&t.st!=='Done'?' '+t.p+'%':''}</span></td><td>${fd(t.e)}</td></tr>`;
+$('watch').innerHTML=D.od.map(t=>row(t,1)).join('')+D.d7.map(t=>row(t,0)).join('');
+const mx=Math.max(...D.dep.map(d=>d.n));
+$('deps').innerHTML=D.dep.map(d=>`<div class="dep"><span>${d.d}</span><div class="bar"><i style="width:${d.n?100*d.n/mx:0}%;opacity:.25"></i><i style="width:${100*d.done/mx}%"></i></div><span class="num">${d.done}/${d.n}</span></div>`).join('')+'<p class="note">Bar length = tasks; dark = done. All nine departments shown per OXO Standard.</p>';
+const DOC=[['G. Sales & Buyer Commitments',6],['H. Financial Records',6],['F. Permits, Approvals & Licences',3],['I. Contracts',2],['C. Site Surveys & Technical Data',1],['J. Governance & Decision History',1],['K. Brand, Media & Community',1]];
+$('docs').innerHTML=DOC.map(d=>`<div class="dep" style="grid-template-columns:1fr 40px"><span>${d[0]}</span><span class="num">${d[1]}</span></div>`).join('');
+// Gantt
+const g0=new Date('2026-07-01T00:00:00'),g1=new Date('2027-01-01T00:00:00'),span=g1-g0;
+const x=d=>Math.max(0,Math.min(100,100*(d-g0)/span));
+document.documentElement.style.setProperty('--wk',(100*7*864e5/span)+'%');
+const months=['Jul','Aug','Sep','Oct','Nov','Dec'];
+let html=`<div class="gh" style="font-weight:600">Workstream</div><div class="gm">${months.map(m=>`<span>${m}</span>`).join('')}</div>`;
+const PN=Object.fromEntries(D.phases.map(p=>[p.code,`${p.code} ${p.month} · ${p.name}`]));
+let cur='';
+[...D.ws].sort((a,b)=>a.ph===b.ph?(a.id<b.id?-1:1):(a.ph<b.ph?-1:1)).forEach(w=>{
+ if(w.ph!==cur){cur=w.ph;html+=`<div class="gp">${esc(PN[cur])}</div>`}
+ const late=w.st!=='Done'&&w.e&&pd(w.e)<today;
+ const bar=w.s&&w.e?`<i class="${w.st==='Done'?'Done':w.pct>0?'ip':''} ${late?'late':''}" style="left:${x(pd(w.s))}%;width:${Math.max(.8,x(pd(w.e))-x(pd(w.s))+.55)}%;--p:${w.pct}%" title="${esc(w.dl)}: ${w.pct}%"></i>`:`<span class="note" style="position:absolute;left:8px;top:6px">Dates TBC</span>`;
+ html+=`<div class="gh"><span class="id">${w.id}${w.sec==='Additional'?' · ADD':''}</span><br>${esc(w.dl)}</div><div class="gc">${bar}<span class="td" style="left:${x(today)}%"></span></div>`;
+});
+$('gantt').innerHTML=html;
+$('wsT').innerHTML=D.ws.map(w=>`<tr><td>${w.id}</td><td>${esc(w.dl)}</td><td>${esc(w.dep||'—')}</td><td class="num">${w.d}/${w.n}</td><td><span class="pill ${w.st==='Done'?'G':w.st==='In Progress'?'A':'NS'}">${w.pct}%</span></td><td>${fd(w.e)}</td></tr>`).join('');
+// View + tab toggles
+const setV=i=>{document.body.classList.toggle('internal',i);$('vC').setAttribute('aria-pressed',!i);$('vI').setAttribute('aria-pressed',i);try{localStorage.setItem('chlView',i?'i':'c')}catch(e){}};
+$('vC').onclick=()=>setV(false);$('vI').onclick=()=>setV(true);
+try{if(localStorage.getItem('chlView')==='i')setV(true)}catch(e){}
+const setT=p=>{$('pS').hidden=p;$('pP').hidden=!p;$('tS').setAttribute('aria-selected',!p);$('tP').setAttribute('aria-selected',p)};
+$('tS').onclick=()=>setT(false);$('tP').onclick=()=>setT(true);
+if(location.hash==='#program')setT(true);
+</script>
+</body></html>
